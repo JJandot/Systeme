@@ -1,7 +1,2 @@
-cmake_minimum_required(VERSION 3.7)
 project(Systeme)
-
-set(CMAKE_C_STANDARD 11)
-
-set(SOURCE_FILES main.c)
-add_executable(Systeme ${SOURCE_FILES})
+add_executable(Systeme main.c sgf-io.c sgf-dir.c sgf-disk.c sgf-fat.c)
