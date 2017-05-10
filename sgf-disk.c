@@ -2,7 +2,7 @@
 /*
 **  hardware.c
 **
-**  Simulation du matériel.
+**  Simulation du matÃ©riel.
 **
 */
 
@@ -48,12 +48,12 @@ static struct HARD_DISK {
 void read_block(int n, BLOCK* bloc)
     {
     if (!dd.exist) init_sgf_disk();
-    
+
     if (!NU_BLOC_OK(n))
         {
-        panic("sgf-disk: read_block: n° de bloc incorrect.");
+        panic("sgf-disk: read_block: nÂ° de bloc incorrect.");
         }
-        
+
     if (fseek(dd.file, (n * BLOCK_SIZE), SEEK_SET) == 0)
         if (BLOCK_SIZE == fread(bloc, 1, BLOCK_SIZE, dd.file))
             {
@@ -63,7 +63,7 @@ void read_block(int n, BLOCK* bloc)
                 }
             return ;
             }
-    
+
     panic("sgf-disk: read_block: impossible de lire le bloc %d\n", n);
     exit(EXIT_FAILURE);
     }
@@ -76,12 +76,12 @@ void read_block(int n, BLOCK* bloc)
 void write_block(int n, BLOCK* b)
     {
     if (!dd.exist) init_sgf_disk();
-    
+
     if (n < 0  ||  n >= dd.size)
         {
-        panic("sgf-disk: write_block: n° de bloc incorrect.");
+        panic("sgf-disk: write_block: nÂ° de bloc incorrect.");
         }
-        
+
     if (fseek(dd.file, (n * BLOCK_SIZE), SEEK_SET) == 0)
         if (BLOCK_SIZE == fwrite(b, 1, BLOCK_SIZE, dd.file))
             {
@@ -92,8 +92,8 @@ void write_block(int n, BLOCK* b)
                 }
             return ;
             }
-    
-    panic("sgf-disk: impossible d'écrire le bloc %d\n", n);
+
+    panic("sgf-disk: impossible d'Ã©crire le bloc %d\n", n);
     exit(EXIT_FAILURE);
     }
 
@@ -105,7 +105,6 @@ void write_block(int n, BLOCK* b)
 int get_disk_size()
     {
     if (!dd.exist) init_sgf_disk();
-    
     return (dd.size);
     }
 
@@ -119,39 +118,39 @@ int test_disk(char* name)
     {
     long size;
     FILE* file;
-    
+
     dd.file = NULL;
     dd.exist = 0;
     dd.size = 0;
     dd.scaned = 0;
     strcpy(dd.nom, "");
-    
+
     file = fopen(name, "r+b");
     if (file == NULL) return (0);
-    
+
     if (fseek(file, 0, SEEK_END) != 0) {
         fclose(file);
         return (0);
         }
-    
+
     size = (ftell(file) / BLOCK_SIZE);
     if (size <= 0) {
         fclose(file);
         return (0);
         }
-    
+
     if (size > 10000) {
         fclose(file);
 	panic("sgf-disk: test_disk: disque %s trop important.", name);
         return (0);
         }
-    
+
     dd.file = file;
     dd.exist = 1;
     dd.size = size;
     dd.scaned = 1;
     strcpy(dd.nom, name);
-    
+
     return (1);
     }
 
@@ -163,7 +162,7 @@ int test_disk(char* name)
 void panic (const char *format, ...)
     {
     va_list ap;
-    
+
     fprintf(stderr, "Panique: ");
     va_start(ap, format);
     vfprintf(stderr, format, ap);
@@ -184,8 +183,6 @@ void init_sgf_disk() {
 	if (test_disk("disk1")) return ;
 	if (test_disk("disk2")) return ;
 	if (test_disk("disk3")) return ;
-	
+
 	panic("sgf-disk: init_sgf_disk: impossible de trouver un disque");
 }
-
-

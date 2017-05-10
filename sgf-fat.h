@@ -22,23 +22,23 @@
     int alloc_block (void);
 
 /**********************************************************************
- Lire/Ecrire l'entrée numéro "n" dans la FAT du disque.
- Ces fonctions ne génèrent aucune erreur.
+ Lire/Ecrire l'entrÃ©e numÃ©ro "n" dans la FAT du disque.
+ Ces fonctions ne gÃ©nÃ¨rent aucune erreur.
  *********************************************************************/
 
     int get_fat (int n);
     void set_fat (int n, int valeur);
 
 /**********************************************************************
- Charger la FAT d'un disque en mémoire pour que ce disque soit
- utilisable (monté).
+ Charger la FAT d'un disque en mï¿½moire pour que ce disque soit
+ utilisable (montÃ©).
  *********************************************************************/
 
     void init_sgf_fat (void);
 
 /**********************************************************************
- Formater le disque en écrivant une FAT vide sur disque.
- Ces fonctions ne génère aucune erreur.
+ Formater le disque en Ã©crivant une FAT vide sur disque.
+ Ces fonctions ne gÃ©nÃ¨re aucune erreur.
  *********************************************************************/
 
     void create_empty_fat (void);
