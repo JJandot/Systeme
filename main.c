@@ -60,7 +60,5 @@ int main() {
 	putchar(c);
 	printf("\nFIN TEST\n");
 
-	sgf_close(file);
-
 	return (EXIT_SUCCESS);
 }

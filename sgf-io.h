@@ -52,6 +52,8 @@ typedef struct OFILE OFILE;
 
     int sgf_getc (OFILE* f);
 
+    int sgf_append_block(OFILE* f);
+
 /************************************************************
  *  Ouvrir/Fermer/Partager un fichier.
  ************************************************************/
@@ -69,8 +71,7 @@ typedef struct OFILE OFILE;
 /**********************************************************************
  * R�alise le d�placement du pointeur en lecture.
  *********************************************************************/
- 
-	int sgf_seek(OFILE* f, int pos);
 
+	int sgf_seek(OFILE* f, int pos);
 
 #endif

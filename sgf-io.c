@@ -17,6 +17,10 @@
 #include "sgf-io.h"
 
 
+/* On stock le numéro de block lu actuel dans une variable global
+Utilisé dans la fonction SEEK
+*/
+int blockRead = -1;
 
 /**********************************************************************
  *
@@ -45,7 +49,6 @@ void sgf_read_bloc(OFILE* file, int nubloc){
 	read_block(adr, &file->buffer);
 }
 
-
 /**********************************************************************
  Lire un caract�re dans un fichier ouvert. Cette fonction renvoie
  -1 si elle trouve la fin du fichier.
@@ -55,7 +58,7 @@ int sgf_getc(OFILE* file)
     {
     int c;
 
-    assert (file->mode == READ_MODE);
+    assert(file->mode == READ_MODE);
 
     /* d�tecter la fin de fichier */
     if (file->ptr >= file->length)
@@ -94,7 +97,7 @@ int sgf_append_block(OFILE* f)
     int adr;
     adr = alloc_block();
     if (adr < 0) return (-1);
-    write_block(adr, & f->buffer );
+    write_block(adr, &f->buffer );
     set_fat(adr, FAT_EOF);
     if (f->first == FAT_EOF) {
         f->first = adr;
@@ -132,13 +135,13 @@ int sgf_putc(OFILE* file, char  c) {
  *********************************************************************/
 
 void sgf_puts(OFILE* file, char* s)
-    {
+{
     assert (file->mode == WRITE_MODE);
 
     for (; (*s != '\0'); s++) {
         sgf_putc(file, *s);
         }
-    }
+}
 
 
 
@@ -152,9 +155,12 @@ void sgf_puts(OFILE* file, char* s)
  D�truire un fichier.
  ************************************************************/
 
-void sgf_remove(int  adr_inode) {
+void sgf_remove(int adr_inode) {
     TBLOCK b;
     int adr, k;
+
+
+    set_fat(adr_inode, FAT_FREE);
 }
 
 
@@ -164,6 +170,9 @@ void sgf_remove(int  adr_inode) {
 
 static  OFILE*  sgf_open_write(const char* nom)
     {
+
+    blockRead = -1;
+
     int inode, oldinode;
     OFILE* file;
     TBLOCK b;
@@ -206,6 +215,8 @@ static  OFILE*  sgf_open_write(const char* nom)
 
 static  OFILE*  sgf_open_read(const char* nom)
     {
+    blockRead = -1;
+
     int inode;
     OFILE* file;
     TBLOCK b;
@@ -238,6 +249,7 @@ static  OFILE*  sgf_open_read(const char* nom)
 
 static  OFILE*  sgf_open_append(const char* nom)
 {
+    blockRead = -1;
     int inode;
     OFILE* file;
     TBLOCK b;
@@ -315,8 +327,7 @@ void init_sgf (void)
  * R�alise le d�placement du pointeur en lecture.
  *********************************************************************/
 
-/* On stock le numéro de block actuel dans une variable global*/
-int blockRead = -1;
+
 int sgf_seek(OFILE* f, int pos){
 	if(f->mode != READ_MODE) return -1;
 	if(f->length <= pos) return -1;
