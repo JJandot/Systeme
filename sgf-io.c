@@ -63,11 +63,14 @@ int sgf_getc(OFILE* file)
 
     /* si le buffer est vide, le remplir */
     if ((file->ptr % BLOCK_SIZE) == 0)
-        {
+    {
         sgf_read_bloc(file, file->ptr / BLOCK_SIZE);
-        }
+    }
 
     c = file->buffer[ (file->ptr % BLOCK_SIZE) ];
+
+
+
     file->ptr ++;
     return (c);
     }
@@ -312,18 +315,20 @@ void init_sgf (void)
  * R�alise le d�placement du pointeur en lecture.
  *********************************************************************/
 
+/* On stock le numéro de block actuel dans une variable global*/
+int blockRead = -1;
 int sgf_seek(OFILE* f, int pos){
 	if(f->mode != READ_MODE) return -1;
 	if(f->length <= pos) return -1;
 
 	f->ptr = pos;
-	int nb = (f->ptr / (BLOCK_SIZE));
-	printf("%d", nb);
-	if(!((nb * BLOCK_SIZE <= pos) && (pos < (nb+1) * BLOCK_SIZE))){
-		printf("gg");
-		sgf_read_bloc(f, nb);
-	}
+    /* Récupération du n° de block */
+	int nbBlock = (f->ptr / BLOCK_SIZE);
 
+    if( blockRead < nbBlock ){
+		sgf_read_bloc(f, nbBlock);
+        blockRead = nbBlock;
+	}
 
 	return 0;
 }

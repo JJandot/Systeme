@@ -24,25 +24,28 @@ int main() {
 	printf("\nListing du disque\n\n");
 	list_directory();
 
-	printf("\nOuverture du fichier essai.txt ...\n");
+	printf("\nOuverture en lecture du fichier essai.txt ...\n");
 	file = sgf_open("essai.txt", READ_MODE);
 
 	printf("\n-- Lecture du fichier essai.txt --\n\n");
+	/*
+	// Permet de débug la fonction SEEK
 	while ((c = sgf_getc(file)) > 0) {
 		printf("%d : ", i++);
 		putchar(c);
 		printf("\n");
 	}
+	*/
 
-	/*while( (c = sgf_getc(file)) >  0)
-		putchar(c);*/
+	while( (c = sgf_getc(file)) >  0)
+		putchar(c);
 
 	printf("\n-- Fin de lecture --\n");
 
 	printf("\n-------\n");
 	printf("TEST SEEK : \n");
 
-	sgf_seek(file, 5);
+	sgf_seek(file, 126);
 	c = sgf_getc(file);
 	putchar(c);
 	printf("\n");
@@ -52,12 +55,12 @@ int main() {
 	putchar(c);
 	printf("\n");
 
-	sgf_seek(file, 140);
+	sgf_seek(file, 142);
 	c = sgf_getc(file);
 	putchar(c);
-	printf("\n");
+	printf("\nFIN TEST\n");
 
 	sgf_close(file);
 
 	return (EXIT_SUCCESS);
-	}
+}
